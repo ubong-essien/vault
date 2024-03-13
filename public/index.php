@@ -30,34 +30,13 @@ function home_base_url(){
     // get default website root directory
     
     $tmpURL = dirname(__FILE__);
-    
-    //echo $tmpURL;
-    // when use dirname(__FILE__) will return value like this "C:\xampp\htdocs\my_website",
-    
-    //convert value to http url use string replace, 
-    
-    // replace any backslashes to slash in this case use chr value "92"
-    
     $tmpURL = str_replace(chr(92),'/',$tmpURL);
-    //echo $tmpURL;
-    // now replace any same string in $tmpURL value to null or ''
-    
-    // and will return value like /localhost/my_website/ or just /my_website/
-    
     $tmpURL = str_replace($_SERVER['DOCUMENT_ROOT'],'',$tmpURL);
-    
-    // delete any slash character in first and last of value
-    
     $tmpURL = ltrim($tmpURL,'/');
     
     $tmpURL = rtrim($tmpURL, '/');
     
-    
-    // check again if we find any slash string in value then we can assume its local machine
-    
         if (strpos($tmpURL,'/')){
-    
-    // explode that value and take only first value
     
            $tmpURL = explode('/',$tmpURL);
     
