@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0)
 $data = "";
 $evtdata = "";
 $status = strip_tags(trim($_GET['Status']));

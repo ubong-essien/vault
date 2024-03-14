@@ -1,29 +1,32 @@
 <?php
-session_start();
-error_reporting(0);
-$data = "";
-$status = strip_tags(trim($_GET['Status']));
-$key = strip_tags(trim($_GET['Vkey']));
+// session_start();
+// $data = "";
+// $evtdata = "";
+// $status = strip_tags(trim($_GET['Status']));
+// $key = strip_tags(trim($_GET['Vkey']));
 
-if($status == 'SUCCESS'){
-  $vk = $_SESSION['AC_TKN']."_".$_SESSION['CSRF_TKN'];
-  // echo $key."|".$vk;
-  if(($key != $vk)){
-    $data = "";
-    die("Unathorized Access...Please check the link properly or visit admin");
-  }
+// if($status == 'SUCCESS'){
+//   $vk = $_SESSION['AC_TKN']."_".$_SESSION['RF_TKN'];
+//   // echo $key."|".$vk;
+//   if(($key != $vk)){
+//     $data = "";
+//     die("Unathorized Access...Please check the link properly or visit admin");
+//   }
 
-  $s = explode("_",$key);
-  $AT = $s[0];//accesstOken
-  $CT = $s[1];//CRSF TOKEN
+//   $s = explode("_",$key);
+//   $AT = $s[0];//accesstOken
+//   $CT = $s[1];//RF TOKEN
  
-  if(($AT != $_SESSION['AC_TKN']) && ($CT != $_SESSION['CSRF_TKN']) && ($key != $vk)){
-    $data = "";
-    die("Unathorized Access...Please check the link properly or visit admin");
-  }else{
-  $data = $_SESSION['RegNo'];
-  }
-}
+//   if(($AT != $_SESSION['AC_TKN']) && ($CT != $_SESSION['RF_TKN']) && ($key != $vk)){
+//     $data = "";
+//     $evtdata = "";
+//     die("Unathorized Access...Please check the link properly or visit admin");
+//   }else{
+//   $data = $_SESSION['name']." | ".$_SESSION['RegNo'];
+//   $evtdata = $_SESSION['evoting_token'];
+
+//   }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,23 +58,20 @@ if($status == 'SUCCESS'){
 
 </head>
 
-<body style="">
+<body >
   <!-- ======= Hero Section ======= -->
   <section id="hero" style="background-color: rgb(143, 141, 141);margin-top:0px!important;">
-    <div class="hero-container " data-aos="fade-in" style="height:650px;">
-      <h1>Welcome to the e-vault</h1>
-      <h2 style="color:#fff">Secured Access | Encrypted Information | Web3 Enabled | Access Control</h2>
-      <img src="assets/img/vaultt.jpg" alt="Hero Imgs" data-aos="zoom-out" data-aos-delay="100">
+    <div class="hero-container  " data-aos="fade-in" style="height:500px;">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 card" data-aos="fade-left" style="height:200px;width:500px;padding:20px">
+            <h2 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;color:red" ></h2>
+            <h1 style="font-family: 'Arial Narrow';font-size: 30px;color:red" data-aos="fade-up">An error has occured,Please try again or contact the admin</h1>
+      </div>
+      </div>
+      <br>
       
-      <form id="pass-form" class="form-inline">
-        <div class="form-group" >
-        <label for="pass" style="color:white;font-weight:bolder"><?= $data;?> </label>
-        <input type="password" name="pass_word" class="form-control" style="width: 100%;" id="pass" placeholder="Enter your vault password">
-        <input type="hidden" name="crsf_token" value="<?= $_SESSION['CSRF_TKN'];?>" class="form-control" style="width: 100%;" id="crsf_token" >
-       </div><br>
-       <button type="submit" class="btn btn-dark">Submit</button>
-      </form>
-  <span id="stg"></span>
+      
+     
     </div>
   </section><!-- End Hero Section -->
 
@@ -83,12 +83,11 @@ if($status == 'SUCCESS'){
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <script src="assets/js/jquery.min.js"></script>
   <!-- Template Main JS File -->
-   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/script.js"></script>
- 
+
 
 </body>
 

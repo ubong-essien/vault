@@ -31,25 +31,27 @@ function rootname(){
         $('#pass-form').submit(function(e){
             e.preventDefault();
             var r=$('#pass-form').serialize();
-            console.log(r);
+            // console.log(r);
             e.preventDefault();
                 $.post({ 
                    type:'POST',
-                   url:rootname()+'public/secure/auth',
+                   url:rootname() + 'public/secure/auth',
                    data:r,
                    success:function(response){
+                    console.log(response);
                     var obj = jQuery.parseJSON(response);
 
                     console.log( obj.Message.Status);
                     console.log( obj.Message.text);
                     // console.log( obj.responsedata.user_name);
                     // console.log( obj.responsedata.rf_token);
-                    console.log("Accessing Vault Resources!!");
+                    
 
                     
 
                     if((obj.Message.Status == 'SUCCESS') && (obj.Message.text == '###')){
                         $('#stg').html("<span class='alert alert-success'>Authentiction Successfull,Accessing Vault Resources!!</span>");
+                        console.log("Accessing Vault Resources!!");
                         // var geturl = window.location;
                         // var baseurl = geturl.protocol + "//"+geturl.host +"/" + geturl.pathname.split('/')[1];
                         var url = rootname()+ "public/secure/show_token/"+ obj.responsedata.rf_token;

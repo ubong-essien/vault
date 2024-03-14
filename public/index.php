@@ -20,50 +20,25 @@ function generateRandomString($length = 10) {
     return substr(bin2hex(random_bytes($length)), 0, $length);
 }
 function home_base_url(){   
-
-    // first get http protocol if http or https
-    
     $base_url = (isset($_SERVER['HTTPS']) &&
-    
     $_SERVER['HTTPS']!='off') ? 'https://' : 'http://';
-    
-    // get default website root directory
-    
     $tmpURL = dirname(__FILE__);
     $tmpURL = str_replace(chr(92),'/',$tmpURL);
     $tmpURL = str_replace($_SERVER['DOCUMENT_ROOT'],'',$tmpURL);
     $tmpURL = ltrim($tmpURL,'/');
     
     $tmpURL = rtrim($tmpURL, '/');
-    
         if (strpos($tmpURL,'/')){
-    
            $tmpURL = explode('/',$tmpURL);
-    
            $tmpURL = $tmpURL[0];
-    
           }
-    
-    // now last steps
-    
-    // assign protocol in first value
-    
        if ($tmpURL !== $_SERVER['HTTP_HOST'])
-    
-    // if protocol its http then like this
-    
           $base_url .= $_SERVER['HTTP_HOST'].'/'.$tmpURL.'/';
-    
         else
-    
-    // else if protocol is https
-    
           $base_url .= $tmpURL.'/';
-    
-    // give return value
-    
     return $base_url; 
         }
+
  function update_access($access_token,$current_count){
         // $max_accesscount = 2;
         $access_count = $current_count + 1;
@@ -92,10 +67,7 @@ $app->get('/secure/validate/{access_token}', function (Request $request, Respons
     // $postData = $request->getParsedBody();
     // $queryParams = $request->getQueryParams();
     $access_token = $args['access_token'];
-   
-    // $max_accesscount = 2;
-    //validate that the url is valid 
-    // connect
+
         $db =  new DB();
         $conn = $db->connect();
         
@@ -151,11 +123,8 @@ return $response->withJson(["error"=>["text" => $e->getMessage()]],500) ;
 $app->post('/secure/auth', function (Request $request, Response $response) {
     //die("am hererererere");
     $postData = $request->getParsedBody();
-
     $password = $postData['pass_word'];
     $csrf_tkn = $postData['crsf_token'];
-  
-
     $logged_regno = $_SESSION['RegNo'];
     $access_token = $_SESSION['AC_TKN'];
     //fetch details based o the acess_key and regno
@@ -169,7 +138,6 @@ $app->post('/secure/auth', function (Request $request, Response $response) {
         
         $sql = "SELECT * FROM access_tb a,voters_tb v WHERE a.access_key = :access_token AND a.active = 1 AND a.regno = :regno AND a.regno = v.regno";
         
-            // select a particular user by id
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':access_token', $access_token);
             $stmt->bindParam(':regno', $logged_regno);
@@ -184,7 +152,7 @@ $app->post('/secure/auth', function (Request $request, Response $response) {
                 // $regno = $access->regno;
                 $name = $access->name;
                 $is_ok = password_verify($password,$pass);
-                // $is_ok = True;
+                // var_dump($is_ok);die;
                 
                 if($is_ok == True){
                     //create a referal token to ensure the reqest is comiing from the right source
@@ -200,8 +168,9 @@ $app->post('/secure/auth', function (Request $request, Response $response) {
 
                 }else{
                     $rd =["Message"=>["Status"=>"ERROR","text"=>"@@@"],"responsedata"=>"404 Error!"];
-                    $rd = json_encode($rd);
-                    return $response->withJson($rd,400);
+                    $rd1 = json_encode($rd);
+                    die($rd1);
+                    // return $response->withJson($rd1,400);
                     // return $response->withRedirect($redirectUrl);
                 }
 
@@ -214,8 +183,6 @@ $app->post('/secure/auth', function (Request $request, Response $response) {
 
             }
             echo json_encode($access);
-        
-
         }catch(PDOException $e){
     return $response->withJson(["error"=>["text" => $e->getMessage()]],500) ;
         }
