@@ -2,27 +2,32 @@
 session_start();
 error_reporting(0);
 $data = "";
-$status = strip_tags(trim($_GET['Status']));
-$key = strip_tags(trim($_GET['Vkey']));
 
-if($status == 'SUCCESS'){
-  $vk = $_SESSION['AC_TKN']."_".$_SESSION['CSRF_TKN'];
-  // echo $key."|".$vk;
-  if(($key != $vk)){
-    $data = "";
-    die("Unathorized Access...Please check the link properly or visit admin");
-  }
+if(!isset($_GET['Status']) || !isset($_GET['Vkey'])){
 
-  $s = explode("_",$key);
-  $AT = $s[0];//accesstOken
-  $CT = $s[1];//CRSF TOKEN
- 
-  if(($AT != $_SESSION['AC_TKN']) && ($CT != $_SESSION['CSRF_TKN']) && ($key != $vk)){
-    $data = "";
-    die("Unathorized Access...Please check the link properly or visit admin");
-  }else{
-  $data = $_SESSION['RegNo'];
-  }
+  die("Unathorized Access...Direct access is not allowed");
+}else{
+    $status = strip_tags(trim($_GET['Status']));
+    $key = strip_tags(trim($_GET['Vkey']));
+    if($status == 'SUCCESS'){
+      $vk = $_SESSION['AC_TKN']."_".$_SESSION['CSRF_TKN'];
+      // echo $key."|".$vk;
+      if(($key != $vk)){
+        $data = "";
+        die("Unathorized Access...Please check the link properly or visit admin");
+      }
+
+      $s = explode("_",$key);
+      $AT = $s[0];//accesstOken
+      $CT = $s[1];//CRSF TOKEN
+    
+      if(($AT != $_SESSION['AC_TKN']) && ($CT != $_SESSION['CSRF_TKN']) && ($key != $vk)){
+        $data = "";
+        die("Unathorized Access...Please check the link properly or visit admin");
+      }else{
+      $data = $_SESSION['RegNo'];
+      }
+    }
 }
 ?>
 <!DOCTYPE html>

@@ -1,33 +1,38 @@
 <?php
 session_start();
-error_reporting(0)
+error_reporting(0);
 $data = "";
 $evtdata = "";
-$status = strip_tags(trim($_GET['Status']));
-$key = strip_tags(trim($_GET['Vkey']));
 
-if($status == 'SUCCESS'){
-  $vk = $_SESSION['AC_TKN']."_".$_SESSION['RF_TKN'];
-  // echo $key."|".$vk;
-  if(($key != $vk)){
-    $data = "";
-    die("Unathorized Access...Please check the link properly or visit admin");
-  }
+if(!isset($_GET['Status']) || !isset($_GET['Vkey'])){
+  die("Unathorized Access...Direct access is not allowed");
+}else{
+    $status = strip_tags(trim($_GET['Status']));
+    $key = strip_tags(trim($_GET['Vkey']));
+    if($status == 'SUCCESS'){
+    $vk = $_SESSION['AC_TKN']."_".$_SESSION['RF_TKN'];
+    // echo $key."|".$vk;
+    if(($key != $vk)){
+      $data = "";
+      die("Unathorized Access...Please check the link properly or visit admin");
+    }
 
-  $s = explode("_",$key);
-  $AT = $s[0];//accesstOken
-  $CT = $s[1];//RF TOKEN
- 
-  if(($AT != $_SESSION['AC_TKN']) && ($CT != $_SESSION['RF_TKN']) && ($key != $vk)){
-    $data = "";
-    $evtdata = "";
-    die("Unathorized Access...Please check the link properly or visit admin");
-  }else{
-  $data = $_SESSION['name']." | ".$_SESSION['RegNo'];
-  $evtdata = $_SESSION['evoting_token'];
+    $s = explode("_",$key);
+    $AT = $s[0];//accesstOken
+    $CT = $s[1];//RF TOKEN
+  
+    if(($AT != $_SESSION['AC_TKN']) && ($CT != $_SESSION['RF_TKN']) && ($key != $vk)){
+      $data = "";
+      $evtdata = "";
+      die("Unathorized Access...Please check the link properly or visit admin");
+    }else{
+    $data = $_SESSION['name']." | ".$_SESSION['RegNo'];
+    $evtdata = $_SESSION['evoting_token'];
 
+    }
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
